@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AFAS Data</title>
+</head>
+<body>
+
+<h1>AFAS Workflow Actions</h1>
+<pre id="output">Laden...</pre>
+
+<script>
+async function loadData() {
+    const response = await fetch("https://jouw-vercel-app.vercel.app/api/afas");
+    const data = await response.json();
+    document.getElementById("output").textContent =
+        JSON.stringify(data, null, 2);
+}
+loadData();
+</script>
+
+</body>
+</html>
