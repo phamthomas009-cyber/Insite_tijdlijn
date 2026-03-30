@@ -8,11 +8,11 @@
 <script>
 async function loadData() {
 
-    // 1. SubjectId ophalen uit de URL
+    // 1. WorkflowId uit de URL halen
     const params = new URLSearchParams(window.location.search);
-    const subjectId = params.get("subject");
+    const workflowId = params.get("workflow");
 
-    console.log("SubjectId uit URL:", subjectId);
+    console.log("WorkflowId uit URL:", workflowId);
 
     // 2. Data ophalen uit jouw backend
     const response = await fetch("/api/afas");
@@ -23,9 +23,9 @@ async function loadData() {
 
     let html = "";
 
-    // 3. Filteren op SubjectId
+    // 3. Filteren op workflownummer
     rows
-        .filter(r => r.SubjectId == subjectId)
+        .filter(r => r.Workflow == workflowId)
         .forEach(r => {
             html += `<li>${r.Status_intern_omschrijving}</li>`;
         });
