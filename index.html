@@ -2,7 +2,7 @@
 <html>
 <body>
 
-<h1>Actie‑types uit AFAS</h1>
+<h1>Status van workflow -170</h1>
 <ul id="list"></ul>
 
 <script>
@@ -13,9 +13,11 @@ async function loadData() {
 
     let html = "";
 
-    rows.forEach(r => {
-        html += `<li>${r.ActionTypeDescription}</li>`;
-    });
+    rows
+        .filter(r => r.TypeId === -170) // alleen workflow -170
+        .forEach(r => {
+            html += `<li>${r.Status_intern_omschrijving}</li>`;
+        });
 
     document.getElementById("list").innerHTML = html;
 }
