@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-    const url = "https://85371.rest.afas.online/ProfitRestServices/connectors/YBF_SubjectFile?skip=0&take=20&orderbyfieldids=Workflow";
+    const url = "https://85371.rest.afas.online/ProfitRestServices/connectors/YBF_SubjectFile?filterfieldids=TypeId&filtervalues=-170&operatortypes=1&skip=0&take=20&orderbyfieldids=Workflow";
 
     try {
         const response = await fetch(url, {
