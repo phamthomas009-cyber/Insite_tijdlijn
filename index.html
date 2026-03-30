@@ -8,27 +8,50 @@
 <script>
 async function loadData() {
 
-    // 1. WorkflowId uit de URL halen
+    // 1. SBID uit URL halen
     const params = new URLSearchParams(window.location.search);
-    const workflowId = params.get("workflow");
+    const sbid = params.get("sbid");
 
-    console.log("WorkflowId uit URL:", workflowId);
+    console.log("SBID uit URL:", sbid);
 
-    // 2. Data ophalen uit jouw backend
+    if (!sbid) {
+        document.getElementById("list").innerHTML = "<li>Geen SBID gevonden.</li>";
+        return;
+    }
+
+    // 2. Data ophalen uit backend
     const response = await fetch("/api/afas");
     const json = await response.json();
-    const rows = json.rows;
+    const rows = json.rows || [];
 
     console.log("Alle rows:", rows);
 
-    let html = "";
+    // 3. Zoek het dossieritem dat hoort bij deze SBID
+    const item = rows.find(r => r.SBID === sbid);
 
-    // 3. Filteren op workflownummer
-    rows
-        .filter(r => r.Workflow == workflowId)
-        .forEach(r => {
-            html += `<li>${r.Status_intern_omschrijving}</li>`;
-        });
+    if (!item) {
+        document.getElementById("list").innerHTML = "<li>Geen dossieritem gevonden voor deze SBID.</li>";
+        return;
+    }
+
+    // 4. Haal het echte workflownummer
+    const workflowId = item.Workflow;
+
+    console.log("Gevonden workflowId:", workflowId);
+
+    // 5. Filter alle stappen van deze workflow
+    const filtered = rows.filter(r => r.Workflow === workflowId);
+
+    if (filtered.length === 0) {
+        document.getElementById("list").innerHTML = "<li>Geen status gevonden voor deze workflow.</li>";
+        return;
+    }
+
+    // 6. Status tonen
+    let html = "";
+    filtered.forEach(r => {
+        html += `<li>${r.Status_intern_omschrijving || "(geen status)"}</li>`;
+    });
 
     document.getElementById("list").innerHTML = html;
 }
