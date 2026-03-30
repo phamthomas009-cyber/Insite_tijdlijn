@@ -14,7 +14,7 @@ async function loadData() {
     let html = "";
 
     rows
-        .filter(r => r.TypeId === -170) // alleen workflow -170
+        .filter(r => r.TypeId == -170) // alleen workflow -170
         .forEach(r => {
             html += `<li>${r.Status_intern_omschrijving}</li>`;
         });
