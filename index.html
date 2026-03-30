@@ -8,9 +8,14 @@
 <script>
 async function loadData() {
 
-    // 1. SBID uit URL halen
     const params = new URLSearchParams(window.location.search);
-    const sbid = params.get("sbid");
+
+    // SBID kan in AFAS met verschillende hoofdletters voorkomen
+    const sbid =
+        params.get("sbid") ||
+        params.get("SbId") ||
+        params.get("SBID") ||
+        params.get("Sbid");
 
     console.log("SBID uit URL:", sbid);
 
@@ -34,7 +39,7 @@ async function loadData() {
         return;
     }
 
-    // 4. Haal het echte workflownummer
+    // 4. Haal het echte workflowId uit het dossieritem
     const workflowId = item.Workflow;
 
     console.log("Gevonden workflowId:", workflowId);
