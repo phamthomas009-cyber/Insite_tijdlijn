@@ -2,19 +2,30 @@
 <html>
 <body>
 
-<h1>Status van workflow -170</h1>
+<h1>Status van workflow</h1>
 <ul id="list"></ul>
 
 <script>
 async function loadData() {
+
+    // 1. SubjectId ophalen uit de URL
+    const params = new URLSearchParams(window.location.search);
+    const subjectId = params.get("subject");
+
+    console.log("SubjectId uit URL:", subjectId);
+
+    // 2. Data ophalen uit jouw backend
     const response = await fetch("/api/afas");
     const json = await response.json();
     const rows = json.rows;
 
+    console.log("Alle rows:", rows);
+
     let html = "";
 
+    // 3. Filteren op SubjectId
     rows
-        .filter(r => r.TypeId == -170) // alleen workflow -170
+        .filter(r => r.SubjectId == subjectId)
         .forEach(r => {
             html += `<li>${r.Status_intern_omschrijving}</li>`;
         });
